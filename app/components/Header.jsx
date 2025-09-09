@@ -21,7 +21,7 @@ export default function Header() {
     }
   };
   return (
-    <div className="flex w-full h-[150] p-2 border-b-2 border-gray-400 bg-white flex-row ">
+    <div className="flex w-full  p-2 border-b-2 border-gray-400 bg-white flex-row ">
       <div
         onClick={() => (window.location.href = "/")}
         className="flex items-center space-x-3 cursor-pointer "
