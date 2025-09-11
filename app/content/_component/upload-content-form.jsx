@@ -92,7 +92,7 @@ export default function UploadContentForm() {
   return (
     <>
      
-      <div className=" mx-20 border-2 border-gray-200 rounded-lg bg-gray-50 p-8 space-y-4 w-2/3">
+      <div className=" mx-20 border-2 border-gray-200 rounded-lg bg-gray-50 p-8 space-y-4  ">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">
           Upload Your Content
         </h1>

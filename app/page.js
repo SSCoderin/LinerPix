@@ -10,7 +10,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
-
+import Link from "next/link";
 export default function Home() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -89,12 +89,12 @@ export default function Home() {
               >
                 Demo
               </a>
-              <button
-                onClick={() => (window.location.href = "/content")}
+              <Link
+                href="/content"
                 className="bg-gradient-to-r cursor-pointer from-blue-600 to-violet-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-violet-700 transition-all shadow-lg hover:shadow-xl font-medium"
               >
                 Get Started
-              </button>
+              </Link>
             </nav>
 
             <button
@@ -130,12 +130,12 @@ export default function Home() {
                 >
                   Demo
                 </a>
-                <button
-                  onClick={() => (window.location.href = "/content")}
+                <Link
+                  href="/content"
                   className="bg-gradient-to-r cursor-pointer from-blue-600 to-violet-600 text-white px-6 py-2 rounded-lg w-full font-medium"
                 >
                   Get Started
-                </button>
+                </Link>
               </div>
             </div>
           )}
@@ -178,13 +178,13 @@ export default function Home() {
               }`}
             >
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button
-                  onClick={() => (window.location.href = "/content")}
+                <Link
+                  href="/content"
                   className="group bg-gradient-to-r cursor-pointer from-blue-600 to-violet-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-violet-700 transition-all transform hover:scale-105 flex items-center space-x-2 shadow-lg hover:shadow-xl"
                 >
                   <span>Get Started</span>
                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -314,13 +314,13 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
-              onClick={() => (window.location.href = "/content")}
+            <Link
+              href="/content"
               className="group bg-white text-blue-600 px-8 cursor-pointer py-4 rounded-xl text-lg font-semibold hover:bg-gray-50 transition-all transform hover:scale-105 flex items-center space-x-2 shadow-lg"
             >
               <span>Get Started</span>
               <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </Link>
             <button className="px-8 py-4 rounded-xl text-lg font-semibold text-white border-2 border-white/30 hover:border-white hover:bg-white/10 transition-all">
               Learn More
             </button>

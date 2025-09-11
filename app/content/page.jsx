@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import axios from "axios";
 import Loading from "../components/Loading";
 import { MoveLeft, Star } from "lucide-react";
+import Link from "next/link";
 import AdminDisplayContent from "./_component/adminDisplayContent";
 export default function ContentPage() {
   const { user } = useUser();
@@ -50,7 +51,7 @@ export default function ContentPage() {
         </>
       ) : (
         <>
-          <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6 my-10 mx-20">
+          <div className="bg-white rounded-xl shadow-md overflow-hidden mb-20 my-10 mx-20">
             <div className="p-6 flex items-center justify-between bg-gradient-to-r from-blue-500/10 to-purple-500/10">
               <div>
                 <h3 className="text-xl font-bold text-slate-800">
@@ -69,7 +70,7 @@ export default function ContentPage() {
           </div>
           {upload ? (
             <div className="mb-20">
-              <div className="flex flex-row items-center mx-20 justify-between w-2/3">
+              <div className="flex flex-row items-center mx-20 justify-between ">
                 <div
                   onClick={() => setUpload(false)}
                   className="flex flex-row items-center mt-4 mb-6"
@@ -79,13 +80,13 @@ export default function ContentPage() {
                     Back
                   </span>
                 </div>
-                <Button
-                  onClick={() => (window.location.href = "/content/ai-create")}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white  rounded-lg font-medium transition-all duration-200 shadow-md"
+                <Link
+                  href="/content/ai-create"
+                  className="bg-gradient-to-r flex flex-row p-2 from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white  rounded-lg font-medium transition-all duration-200 shadow-md"
                 >
                   <Star />
                   Generate Content Using AI
-                </Button>
+                </Link>
               </div>
 
               <UploadContentForm />
@@ -97,7 +98,7 @@ export default function ContentPage() {
                 Create New Content
               </h1>
               <div className="flex flex-row justify-between mx-20 gap-10 ">
-                <div className="border-dotted border border-blue-400 rounded-2xl p-10 bg-blue-50 w-1/2 flex flex-col items-center">
+                <div className="border-dotted border border-blue-400 rounded-2xl p-10 py-20 bg-blue-50 w-1/2 flex flex-col items-center">
                   <h1 className="text-2xl font-bold text-blue-900">
                     Upload Your Content Here
                   </h1>
@@ -105,32 +106,31 @@ export default function ContentPage() {
                     Upload a paragraph, story, or article to generate stunning
                     visuals from it.
                   </p>
-                  <Button
+                  <div
                     onClick={() => setUpload(true)}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md"
+                    className="bg-gradient-to-r cursor-pointer from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md"
                   >
                     Upload Content
-                  </Button>
+                  </div>
                 </div>
                 <div
-                  className={`border-dotted border border-blue-400 rounded-2xl p-10 w-1/2 flex flex-col items-center bg-[url('https://www.umangsoftware.com/wp-content/uploads/2020/05/ai-bg-1024x478.png')] `}
+                  className={`border-dotted border border-blue-400 rounded-2xl p-10 py-20 w-1/2 flex flex-col items-center bg-[url('https://www.umangsoftware.com/wp-content/uploads/2020/05/ai-bg-1024x478.png')] `}
                 >
                   <h1 className="text-2xl font-bold text-white mb-6">
                     Generate Content Using AI
                   </h1>
 
-                  <Button
-                    onClick={() =>
-                      (window.location.href = "/content/ai-create")
-                    }
+                  <Link
+                    href="/content/ai-create"
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-md"
                   >
                     Generate
-                  </Button>
+                  </Link>
                 </div>
               </div>
-              <div className="mt-10 mx-20 flex flex-col items-center">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent mt-8 mb-6 mr-auto">
+              <div className="bg-blue-50 pb-20 ">
+              <div className="mt-20 mx-20 flex flex-col items-center pt-20 ">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent mb-8 mr-auto">
                   Previously Uploaded Content
                 </h1>
                 <div className="flex flex-row w-full flex-wrap items-center border border-gray-200 rounded-lg bg-gray-50 p-8 shadow-sm ">
@@ -170,6 +170,7 @@ export default function ContentPage() {
               </div>
               <div className="mb-20">
                 <GenerateContent aigeneratedData={aigeneratedData} />
+              </div>
               </div>
             </>
           )}

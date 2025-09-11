@@ -54,7 +54,8 @@ export default function AdminDisplayContent() {
   };
 
   return (
-    <div className="mt-10 mx-6 md:mx-20">
+    <div className="bg-red-50  pb-20 py-10">
+    <div className="mt-10 mx-6 md:mx-20 ">
       <div className="flex flex-col gap-8">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-red-500 to-purple-500 bg-clip-text text-transparent  mr-auto ">
                   Your Current Task
@@ -125,6 +126,7 @@ export default function AdminDisplayContent() {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }
