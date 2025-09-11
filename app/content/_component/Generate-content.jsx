@@ -31,7 +31,7 @@ export default function GenerateContent({ aigeneratedData }) {
                 style={{
                   backgroundImage:
                     item.first_image !== "null"
-                      ? `url(data:image/jpeg;base64,${item.first_image})`
+                      ? `url(${item.first_image})`
                       : `url(${DefaultImage})`,              
                           backgroundSize: "cover",
                   backgroundSize: "cover",

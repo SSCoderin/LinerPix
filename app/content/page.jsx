@@ -145,7 +145,7 @@ export default function ContentPage() {
                           className="relative w-60 h-50 rounded-lg overflow-hidden m-2 cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-blue-300 hover:border-2 hover:border-blue-300"
                           style={{
                             backgroundImage: item.first_image
-                              ? `url(data:image/jpeg;base64,${item.first_image})`
+                              ? `url(${item.first_image})`
                               : `url(https://th.bing.com/th/id/OIP.dlsFyeoIz85ZYdETpmDGpQAAAA?rs=1&pid=ImgDetMain)`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",

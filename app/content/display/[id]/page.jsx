@@ -400,7 +400,7 @@ const skipLine = () => {
                                     className="relative h-auto rounded-lg overflow-hidden m-2 border-2 border-green-400 shadow-lg"
                                   >
                                     <img
-                                      src={`data:image/png;base64,${imageData.content.gen_image[index].data}`}
+                                      src={`${imageData.content.gen_image[index]}`}
                                       alt={`Image ${index + 1}`}
                                       className="w-full h-full object-cover"
                                     />

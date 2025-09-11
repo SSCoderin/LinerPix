@@ -1,13 +1,35 @@
 import { NextResponse } from "next/server";
 import { Connect } from "@/app/database/Connect";
 import Genimage from "@/app/models/genimageModel";
-import { GoogleGenAI } from "@google/genai";
 import Uploadcontent from "@/app/models/uploadcontentModel";
+import { GoogleGenAI } from "@google/genai";
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
+
+async function uploadImagesToCloudinary(imageDataArray) {
+    const uploadPromises = imageDataArray.map(image => {
+        const dataUri = `data:${image.mimeType};base64,${image.data}`;
+        
+        return cloudinary.uploader.upload(dataUri, {
+            folder: "generated_content", 
+            resource_type: "image",
+        }).then(result => result.secure_url); 
+    });
+    const imageUrls = await Promise.all(uploadPromises);
+    return imageUrls;
+}
+
 
 export async function POST(req) {
   console.log("api called");
   try {
-    const { userid,contentid, content } = await req.json();
+    const { userid, contentid, content } = await req.json();
     await Connect();
     const existingData = await Genimage.findOne({ contentid: contentid });
 
@@ -16,21 +38,29 @@ export async function POST(req) {
     }
 
     const description = await Getparadescription(content.content);
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log(description);
+
     const imageData = description ? await GetImage(description, content.style) : null;
+    
+    if (!imageData || imageData.length === 0) {
+        throw new Error("Failed to generate images.");
+    }
+    const imageUrls = await uploadImagesToCloudinary(imageData);
+    console.log("Uploaded Image URLs:", imageUrls);
 
     const newContent = await Genimage.create({
       userid: userid,
       contentid: contentid,
       content: content,
       content_description: description,
-      gen_image: imageData,
+      gen_image: imageUrls,
     });
- await Uploadcontent.updateOne({ _id: contentid }, { $set: { first_image: imageData[0].data } });
+
+    await Uploadcontent.updateOne({ _id: contentid }, { $set: { first_image: imageUrls[0] } });
+
     return NextResponse.json({ success: true, content: newContent });
   } catch (error) {
+    console.error("API Error:", error); 
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
@@ -50,18 +80,18 @@ async function Getparadescription(content) {
         {
           text: `You are given a short story. Split the story into sequential scenes, where each scene corresponds to one major line or event in the story.
 
-    For each scene, generate a JSON object with the following structure:
+      For each scene, generate a JSON object with the following structure:
 
-    line: (The step number of the scene, starting from 1)
+      line: (The step number of the scene, starting from 1)
 
-    text: (The line or sentence from the original story)
+      text: (The line or sentence from the original story)
 
-    description: (A detailed visual description of this scene, so that an AI image generator can visualize and draw it. Make sure the description builds visual continuity from the previous scene.)
+      description: (A detailed visual description of this scene, so that an AI image generator can visualize and draw it. Make sure the description builds visual continuity from the previous scene.)
 
-    Format your result as a JSON array.
+      Format your result as a JSON array.
 
-    Story Input:
-    ${content}`,
+      Story Input:
+      ${content}`,
         },
       ],
     },
@@ -80,10 +110,6 @@ async function Getparadescription(content) {
 
   return JSON.parse(cleanResult);
 }
-
-
-
-
 
 async function GetImage(description, style) {
   const ai = new GoogleGenAI({
@@ -159,15 +185,13 @@ async function GetImage(description, style) {
   return imageDataArray;
 }
 
-
-
-    export async function GET(req){
-      try {
+export async function GET(req){
+    try {
         const userid = req.nextUrl.searchParams.get("userid");
         await Connect();
         const ImageData = await Genimage.find({ userid: userid });
         return NextResponse.json({ success: true, ImageData });
-      } catch (error) {
+    } catch (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
-      }
     }
+}

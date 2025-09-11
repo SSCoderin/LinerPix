@@ -20,7 +20,8 @@ const genimageSchema = new mongoose.Schema({
         required: true
     },
     gen_image: {
-        type: Array,
+        // type: Array,
+        type: [String],
         required: true
     }
 });

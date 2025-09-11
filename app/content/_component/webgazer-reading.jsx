@@ -729,7 +729,7 @@ export default function WebgazerReadingPage({ imageData, selectedContent }) {
                       className="relative h-auto rounded-lg overflow-hidden m-2 border-2 border-blue-300 shadow-lg"
                     >
                       <img
-                        src={`data:image/png;base64,${imageData.content.gen_image[imgIdx].data}`}
+                        src={`${imageData.content.gen_image[imgIdx]}`}
                         alt={`Image ${imgIdx + 1}`}
                         className="w-full h-full object-cover"
                         data-image-idx={imgIdx}

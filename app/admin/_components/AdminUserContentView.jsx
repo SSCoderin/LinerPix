@@ -25,7 +25,7 @@ export default function AdminUserContentView({ AnalysisData }) {
             {item.gen_image?.map((img, imgIdx) => (
               <img
                 key={imgIdx}
-                src={`data:${img.mimeType};base64,${img.data}`}
+                src={`${img.data}`}
                 alt={`Scene ${index + 1} - Image ${imgIdx + 1}`}
                 className="w-48 h-auto rounded-md border shadow-sm"
               />
