@@ -2,6 +2,28 @@ import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import AdminContent from "@/app/models/admin/adminContent"; 
 import { Connect } from "@/app/database/Connect";
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
+
+async function uploadImagesToCloudinary(imageDataArray) {
+    const uploadPromises = imageDataArray.map(image => {
+        const dataUri = `data:${image.mimeType};base64,${image.data}`;
+        
+        return cloudinary.uploader.upload(dataUri, {
+            folder: "generated_content", 
+            resource_type: "image",
+        }).then(result => result.secure_url); 
+    });
+    const imageUrls = await Promise.all(uploadPromises);
+    return imageUrls;
+}
+
 export async function POST(req) {
   console.log("api called");
   try {
@@ -12,6 +34,11 @@ export async function POST(req) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log(description);
     const imageData = description ? await GetImage(description, content.style) : null;
+if (!imageData || imageData.length === 0) {
+        throw new Error("Failed to generate images.");
+    }
+    const imageUrls = await uploadImagesToCloudinary(imageData);
+    console.log("Uploaded Image URLs:", imageUrls);
 
     const newContent = await AdminContent.create({
       userid: userid,
@@ -20,7 +47,7 @@ export async function POST(req) {
       content: content.content,
       style: content.style,
       content_description: description,
-      ImageData: imageData,
+      ImageData: imageUrls,
     });
     return NextResponse.json({ success: true, content: newContent });
   } catch (error) {

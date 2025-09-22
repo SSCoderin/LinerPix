@@ -123,7 +123,7 @@ export default function TaskDashboard() {
                         HandelSelectContent(item);
                       }}
                       style={{
-                        backgroundImage: `url(data:image/jpeg;base64,${item.ImageData[0].data})`,
+                        backgroundImage: `url(${item.ImageData[0]})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                       }}
@@ -208,7 +208,7 @@ export default function TaskDashboard() {
                           key={index}
                           className="relative w-60 h-50 rounded-lg overflow-hidden m-2 cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-blue-300 hover:border-2 hover:border-blue-300"
                           style={{
-                            backgroundImage: `url(data:image/jpeg;base64,${item.ImageData[0].data})`,
+                            backgroundImage: `url(${item.ImageData[0]})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                           }}
